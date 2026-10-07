@@ -56,6 +56,7 @@ function renderizarTarefas() {
         }
 
         const colunaAcoes = document.createElement("td");
+        colunaAcoes.classList.add("text-center");
 
         const botaoConcluir = document.createElement("button");
         botaoConcluir.textContent = 
@@ -79,9 +80,38 @@ function renderizarTarefas() {
         );
 
         const botaoEditar = document.createElement("button");
+        botaoEditar.textContent = "Editar";
+        botaoEditar.classList.add(
+            "btn",
+            "btn-primary",
+            "btn-sm",
+            "me-2"
+        );
+        botaoEditar.addEventListener(
+            "click",
+            function() {
+                editarTarefas(tarefa.id);
+            }
+        )
+
         const botaoExcluir = document.createElement("button");
+        botaoExcluir.textContent = "Excluir";
+        botaoExcluir.classList.add (
+            "btn",
+            "btn-danger",
+            "btn-sm",
+            "me-2"
+        );
+          botaoExcluir.addEventListener(
+            "click",
+            function(){
+                excluirTarefa(tarefa.id);
+            }
+        )
 
         colunaAcoes.appendChild(botaoConcluir);
+        colunaAcoes.appendChild(botaoEditar);
+        colunaAcoes.appendChild(botaoExcluir);
 
 
 
@@ -92,6 +122,7 @@ function renderizarTarefas() {
 
         listaTarefas.appendChild(linha);
     });
+    atualizarContador();
 }
 
 function salvarTarefa() {
@@ -109,6 +140,34 @@ function alterarStatus(id) {
     });
     salvarTarefa();
     renderizarTarefas();
+}
+
+function atualizarContador() {
+    const quantidade = tarefas.length;
+    if (quantidade === 1){
+        contador.textContent = "1 tarefa"
+    } else {
+        contador.textContent = quantidade + " Tarefas"
+    }
+}
+
+function editarTarefas(id){
+    const Tarefas = tarefas.find(function (tarefa) {
+        return tarefa.id === id;
+    });
+    const novoTexto = prompt("Digite o novo nome da tarefa:", tarefa.texto).trim();
+    if(novoTexto === "") {
+        alert("A tarefa não pode ficar vazia.")
+        return;
+    }
+    tarefa.texto = novoTexto;
+    salvarTarefa();
+    renderizarTarefas();
+}
+
+
+function excluirTarefa (id){
+
 }
 
 
